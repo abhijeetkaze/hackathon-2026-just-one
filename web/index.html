@@ -2,80 +2,90 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Just One</title>
-    <meta name="description" content="Dump your whole to-do list once. Every day it shows you just one thing. Gemma runs on your phone, so your list never leaves it.">
-    <meta name="theme-color" content="#2f5d50">
+    <meta name="description" content="Write your whole to-do list down once. Every day you get one thing. Gemma runs on your phone, so the list never leaves it.">
+    <meta name="theme-color" content="#d9e1e6" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1c2328" media="(prefers-color-scheme: dark)">
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href="./icon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Shantell+Sans:wght@500;700&display=swap">
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
-    <main class="app">
+    <div class="app">
       <header class="top">
-        <p class="brand">Just One</p>
-        <nav>
-          <button type="button" class="link" data-go="dump">Add</button>
-          <button type="button" class="link" data-go="all">Everything</button>
+        <button type="button" class="brand" data-go="today" aria-label="Just One, today">Just One</button>
+        <nav aria-label="Screens">
+          <button type="button" class="nav" data-go="dump">Add</button>
+          <button type="button" class="nav" data-go="all">All</button>
         </nav>
       </header>
 
-      <!-- Today: the only screen most days -->
-      <section id="today" class="screen" hidden>
-        <p class="date" id="dateLine"></p>
-        <div id="pickCard" class="card pick" hidden>
-          <p class="eyebrow">Your one thing today</p>
-          <h1 id="pickTitle"></h1>
-          <p id="pickWhy" class="why"></p>
-          <p id="pickStep" class="step" hidden></p>
-          <div class="actions">
-            <button id="doneBtn" type="button" class="primary">Done</button>
-            <button id="smallerBtn" type="button" class="ghost">Too big? Make it smaller</button>
-            <button id="skipBtn" type="button" class="quiet">Not today</button>
+      <main>
+        <!-- Today: the only screen most days -->
+        <section id="today" class="screen" hidden aria-labelledby="dateLine">
+          <h2 id="dateLine" class="date"></h2>
+
+          <div id="pickCard" class="pick" hidden>
+            <article class="note" id="note" aria-live="polite">
+              <h1 id="pickTitle"></h1>
+              <p id="pickWhy" class="why"></p>
+              <p id="pickStep" class="step" hidden></p>
+            </article>
+            <div class="controls">
+              <button id="doneBtn" type="button" class="done">Done</button>
+              <button id="smallerBtn" type="button" class="secondary">Make it smaller</button>
+              <button id="skipBtn" type="button" class="text">Not today</button>
+            </div>
+            <p id="pickStatus" class="status" role="status"></p>
           </div>
-          <p id="pickStatus" class="status" role="status"></p>
-        </div>
-        <div id="restCard" class="card rest" hidden>
-          <p class="eyebrow" id="restEyebrow">That's it for today</p>
-          <h1 id="restTitle">You can stop now.</h1>
-          <p id="restText" class="why">Everything else can wait until tomorrow.</p>
-          <div class="actions"><button id="anotherBtn" type="button" class="ghost">I'm on a roll, give me another</button></div>
-        </div>
-        <div id="emptyCard" class="card rest" hidden>
-          <p class="eyebrow">Nothing on your list</p>
-          <h1>Empty your head first.</h1>
-          <p class="why">Write down everything you've been putting off, once. After that you only ever see one thing a day.</p>
-          <div class="actions"><button type="button" class="primary" data-go="dump">Start</button></div>
-        </div>
-      </section>
 
-      <!-- Dump: write everything once -->
-      <section id="dump" class="screen" hidden>
-        <h1 class="h">Everything you've been putting off.</h1>
-        <p class="why">One messy paragraph is fine. Deadlines, who's waiting, what happens if you skip it: write it the way you'd say it. You won't see this list again unless you ask.</p>
-        <textarea id="dumpText" rows="9" placeholder="pay the electricity bill by friday or there's a late fee, priya is waiting on the design review (said tomorrow), renew passport, call the plumber about the kitchen tap, return the amazon parcel in 3 days…"></textarea>
-        <div class="actions">
-          <button id="splitBtn" type="button" class="primary">Sort it with Gemma</button>
-          <button id="linesBtn" type="button" class="ghost">One task per line, no AI</button>
-          <button id="exampleBtn" type="button" class="quiet">Example</button>
-        </div>
-        <p id="dumpStatus" class="status" role="status"></p>
-        <progress id="dumpProgress" max="1" value="0" hidden></progress>
-      </section>
+          <div id="restCard" class="space" hidden>
+            <div class="ghost-note">
+              <h1 id="restTitle">That was the one.</h1>
+              <p id="restText"></p>
+            </div>
+            <button id="anotherBtn" type="button" class="text">I'm on a roll, give me another</button>
+          </div>
 
-      <!-- Everything: for when you insist -->
-      <section id="all" class="screen" hidden>
-        <h1 class="h">Everything, in the order you'll get it.</h1>
-        <p class="why">You don't need to look at this. It's here so you can fix a date or delete something.</p>
-        <ol id="allList" class="list"></ol>
-        <div class="actions"><button id="clearBtn" type="button" class="quiet">Delete everything on this phone</button></div>
-      </section>
+          <div id="emptyCard" class="space" hidden>
+            <div class="ghost-note">
+              <h1>Nothing stuck here yet.</h1>
+              <p>Write down everything you've been putting off, once. From then on you get one thing a day.</p>
+            </div>
+            <button type="button" class="done" data-go="dump">Write the list</button>
+          </div>
+        </section>
 
-      <footer class="foot">Your list stays on this phone. Gemma runs here too. <a href="https://github.com/abhijeetkaze/hackathon-2026/tree/main/just-one">Source</a></footer>
-    </main>
+        <!-- Add: write everything down once -->
+        <section id="dump" class="screen" hidden aria-labelledby="dumpHead">
+          <h1 id="dumpHead" class="page-title">Everything you've been putting off</h1>
+          <p class="lede">Write it however it comes out. Mention deadlines, who's waiting and what happens if you skip it. You won't have to read this list again.</p>
+          <label class="sr" for="dumpText">Your list</label>
+          <textarea id="dumpText" class="pad" rows="10" placeholder="pay the electricity bill by friday or there's a late fee&#10;priya's waiting on the design review, told her tomorrow&#10;renew passport&#10;call the plumber about the kitchen tap"></textarea>
+          <div class="controls">
+            <button id="splitBtn" type="button" class="done">Sort it with Gemma</button>
+            <button id="linesBtn" type="button" class="secondary">One per line, no AI</button>
+            <button id="exampleBtn" type="button" class="text">Fill in an example</button>
+          </div>
+          <p id="dumpStatus" class="status" role="status"></p>
+          <progress id="dumpProgress" max="1" value="0" hidden></progress>
+        </section>
+
+        <!-- All: for when you insist -->
+        <section id="all" class="screen" hidden aria-labelledby="allHead">
+          <h1 id="allHead" class="page-title">In the order they'll come up</h1>
+          <p class="lede">You don't need to look at this. It's here to fix a date or remove something.</p>
+          <ol id="allList" class="list"></ol>
+          <button id="clearBtn" type="button" class="text danger">Delete the whole list from this phone</button>
+        </section>
+      </main>
+
+      <footer class="foot">The list and Gemma both stay on this phone. <a href="https://github.com/abhijeetkaze/hackathon-2026/tree/main/just-one">Source code</a></footer>
+    </div>
     <script type="module" src="./js/main.js"></script>
   </body>
 </html>

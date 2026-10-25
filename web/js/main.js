@@ -17,6 +17,8 @@ const today = () => localISO();
 
 function show(name) {
   for (const s of document.querySelectorAll(".screen")) s.hidden = s.id !== name;
+  for (const n of document.querySelectorAll(".nav")) n.toggleAttribute("aria-current", n.dataset.go === name);
+  for (const n of document.querySelectorAll(".nav[aria-current]")) n.setAttribute("aria-current", "page");
   if (name === "today") renderToday();
   if (name === "all") renderAll();
   if (name === "dump") $("dumpText").focus();
@@ -41,12 +43,12 @@ function renderToday() {
     $("pickTitle").textContent = pick.task.title;
     $("pickWhy").textContent = because(pick.reasons);
     $("pickStep").hidden = !pick.task.step;
-    $("pickStep").textContent = pick.task.step ? `Start here: ${pick.task.step}` : "";
+    $("pickStep").textContent = pick.task.step;
+    $("note").classList.remove("peel", "drop");
     $("pickStatus").textContent = "";
   } else if (open.length) {
     const doneToday = state.tasks.some((t) => t.done === d);
-    $("restEyebrow").textContent = doneToday ? "Done for today" : "Skipped for today";
-    $("restTitle").textContent = doneToday ? "That was the one. You can stop now." : "Fine. It'll be here tomorrow.";
+    $("restTitle").textContent = doneToday ? "That was the one. You can stop now." : "Fine. It'll be back tomorrow.";
     const left = open.filter((t) => t.skipped !== d).length;
     $("restText").textContent = `${open.length} ${open.length === 1 ? "thing waits" : "things wait"} until tomorrow. You don't have to look at ${open.length === 1 ? "it" : "them"}.`;
     $("anotherBtn").hidden = left === 0;
@@ -64,7 +66,8 @@ function renderAll() {
     title.textContent = r.task.title;
     const meta = document.createElement("span");
     meta.className = "m";
-    meta.textContent = [r.task.due ? `due ${describeDue(r.task.due, d)}` : "", r.task.waiting ? `${r.task.waiting} waiting` : "", r.task.skips ? `skipped ${r.task.skips}×` : ""].filter(Boolean).join(" · ");
+    const bits = [r.task.due ? `Due ${describeDue(r.task.due, d)}` : "", r.task.waiting ? `${r.task.waiting} is waiting` : "", r.task.skips ? `Skipped ${r.task.skips === 1 ? "once" : `${r.task.skips} times`}` : ""].filter(Boolean);
+    meta.textContent = bits.length ? bits.join(". ") + "." : "No deadline.";
     const date = document.createElement("input");
     date.type = "date";
     date.value = r.task.due;
@@ -75,16 +78,19 @@ function renderAll() {
     });
     const del = document.createElement("button");
     del.type = "button";
-    del.className = "quiet";
-    del.textContent = "Delete";
+    del.className = "text";
+    del.textContent = "Remove";
     del.addEventListener("click", () => {
       commit({ ...state, tasks: state.tasks.filter((t) => t.id !== r.task.id) });
       renderAll();
     });
-    li.append(title, meta, date, del);
+    const row = document.createElement("div");
+    row.className = "row";
+    row.append(date, del);
+    li.append(title, meta, row);
     list.append(li);
   }
-  if (!list.children.length) list.innerHTML = '<li class="m">Nothing here. Lovely.</li>';
+  if (!list.children.length) list.innerHTML = '<li class="none">Nothing on the list. Add something when you feel like it.</li>';
 }
 
 // ── adding ───────────────────────────────────────────────────────────────────
@@ -100,15 +106,15 @@ function finishAdding(tasks, how) {
   commit({ tasks: next.tasks, today: state.today });
   const added = state.tasks.length - before;
   $("dumpText").value = "";
-  dumpStatus(`${added} ${added === 1 ? "task" : "tasks"} saved ${how}. Now forget about them.`, "ok");
+  dumpStatus(`Saved ${added} ${added === 1 ? "thing" : "things"} ${how}. You can forget about them now.`, "ok");
   setTimeout(() => show("today"), 900);
 }
 
 async function sortWithGemma() {
   const text = $("dumpText").value.trim();
-  if (!text) return dumpStatus("Write something first, or tap Example.", "warn");
+  if (!text) return dumpStatus("Write something first, or tap ‘Fill in an example’.", "warn");
   const reason = unsupportedReason();
-  if (reason) return dumpStatus(`${reason} Use "One task per line" instead.`, "warn");
+  if (reason) return dumpStatus(`${reason} Use ‘One per line, no AI’ instead.`, "warn");
   const btn = $("splitBtn");
   btn.disabled = true;
   try {
@@ -128,7 +134,7 @@ async function sortWithGemma() {
   } catch (e) {
     $("dumpProgress").hidden = true;
     console.error(e);
-    dumpStatus(`${e instanceof Error ? e.message : String(e)} Try "One task per line" instead.`, "warn");
+    dumpStatus(`${e instanceof Error ? e.message : String(e)} Try ‘One per line, no AI’ instead.`, "warn");
   } finally {
     btn.disabled = false;
   }
@@ -136,7 +142,7 @@ async function sortWithGemma() {
 
 function addByLines() {
   const text = $("dumpText").value.trim();
-  if (!text) return dumpStatus("Write something first, or tap Example.", "warn");
+  if (!text) return dumpStatus("Write something first, or tap ‘Fill in an example’.", "warn");
   finishAdding(splitByLines(text, today()), "one per line");
 }
 
@@ -169,16 +175,22 @@ async function makeSmaller() {
 // ── start ────────────────────────────────────────────────────────────────────
 
 for (const el of document.querySelectorAll("[data-go]")) el.addEventListener("click", () => show(el.dataset.go));
-$("doneBtn").addEventListener("click", () => {
+const calm = matchMedia("(prefers-reduced-motion: reduce)");
+
+/** The note leaves the desk (peeled off when done, dropped when skipped), then the screen updates. */
+function leave(kind, apply) {
   const pick = todaysPick(state, today());
-  if (pick) commit(markDone(state, pick.task.id, today()));
-  renderToday();
-});
-$("skipBtn").addEventListener("click", () => {
-  const pick = todaysPick(state, today());
-  if (pick) commit(skip(state, pick.task.id, today()));
-  renderToday();
-});
+  if (!pick) return;
+  for (const b of document.querySelectorAll(".pick button")) b.disabled = true;
+  $("note").classList.add(kind);
+  setTimeout(() => {
+    commit(apply(state, pick.task.id, today()));
+    for (const b of document.querySelectorAll(".pick button")) b.disabled = false;
+    renderToday();
+  }, calm.matches ? 0 : kind === "peel" ? 520 : 420);
+}
+$("doneBtn").addEventListener("click", () => leave("peel", markDone));
+$("skipBtn").addEventListener("click", () => leave("drop", skip));
 $("anotherBtn").addEventListener("click", () => {
   commit(another(state, today()));
   renderToday();
@@ -196,7 +208,6 @@ $("clearBtn").addEventListener("click", () => {
   state = { tasks: [], today: null };
   show("today");
 });
-document.querySelector(".brand").addEventListener("click", () => show("today"));
 
 show(state.tasks.length ? "today" : "dump");
 

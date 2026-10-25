@@ -1,98 +1,139 @@
 ---
-title: "Just One: tell it everything once, and every morning it shows you one thing"
+title: "My to-do list had 40 things on it, so I replaced it with one sticky note"
 published: false
 tags: devchallenge, hf26challenge, gemma, opensource
 ---
 
 *This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 3: Slow and Steady](https://dev.to/challenges/hacktoberfest-week3-2026-10-19)*
 
-My to-do list has never once helped me do anything. It's a list of forty things, and every time I open it I spend ten minutes deciding which one matters, feel bad about the other thirty-nine, and close it. The deciding is the work I'm avoiding.
+Open your to-do app. Count the items. Don't do any of them, just count.
 
-So I built **Just One**. You tell it everything you've been putting off, once, as one messy paragraph. After that it has one screen: the single thing to do today, one line on why it's that one, and three buttons. **Done**. **Make it smaller**. **Not today**.
+Mine had forty. Pay the electricity bill. Renew the passport. Reply to the society secretary. Call the plumber about the tap that has been dripping since July.
 
-**TL;DR.** Gemma runs on your phone and turns a brain dump into tasks. Plain code reads the deadlines and picks today's one thing with a reason you can check. Done means you can stop. Your list never leaves the phone, and it works in airplane mode.
+Every time I opened it, the same thing happened. I read all forty, felt bad about thirty-nine, couldn't decide which one mattered, and closed the app. Ten minutes gone, nothing done.
+
+The list was never the problem. **Deciding** was the problem. And deciding is exactly the kind of work a lazy person will put off forever.
+
+So I stopped deciding. I built an app that does it for me, shows me one thing, and then leaves me alone.
+
+{% embed https://www.youtube.com/watch?v=BPLhi1_g-fA %}
 
 ## What I Built
 
-- **Empty your head once.** *"pay the electricity bill by friday or there's a late fee. priya is waiting on the design review, I told her tomorrow. renew my passport sometime. return the amazon parcel in 3 days or I lose the refund…"* Gemma splits that into tasks: a short title, the deadline words, who's waiting, what skipping costs, and a rough number of minutes.
-- **One thing a day.** Each morning the app shows one task: *"Send Priya the design review. Because it's due tomorrow and Priya is waiting on it."* Opening the app again doesn't reshuffle it.
-- **Make it smaller.** One tap and Gemma gives you a first step you can do in under five minutes: *"Open the electricity board site and find this month's bill."* The step sits under the task until you're done.
-- **Not today.** Allowed, with no guilt trip. Nothing replaces it today unless you ask. But every skip makes that task heavier tomorrow, so the things you dodge come back first.
-- **Done means stop.** After you finish, the app says *"That was the one. You can stop now."* There's a "give me another" button for days you're on a roll, but it's never the default.
-- **Everything, if you insist.** One tap shows the whole list in the order you'll get it, so you can fix a date or delete something. You don't have to look at it.
+**Just One** is a to-do list you only write once.
 
-**Why not just ask ChatGPT what to do today?** Because you'd have to paste your whole life into it every morning, it would give a different answer each time, and it can't tell you *why* in a way you can check. Just One remembers the list on your phone, gives the same pick for the same list, and shows its reasoning in one sentence.
+You dump everything on your mind into a lined pad, as one messy paragraph. Gemma, running on your phone, turns it into tasks. After that the app has exactly one screen: a single yellow sticky note with today's one thing on it, one line on why it's that one, and three buttons.
+
+- **Done.** The note peels off the desk. The app says *"That was the one. You can stop now."* And it means it.
+- **Make it smaller.** For the task that feels like a mountain. Gemma gives you a first step that takes under five minutes, and writes it on the note: *"Start here: open the doc and write the first three comments."*
+- **Not today.** Allowed. No guilt trip, no replacement task. But the note comes back tomorrow a little heavier, so the things you dodge float to the top.
+
+That's the whole app. There's an "All" screen if you insist on seeing everything, but you never have to open it.
+
+### The sticky note rules
+
+| Rule | Why |
+| --- | --- |
+| You write the list once | Organising a list is just procrastination with extra steps |
+| One note a day | Forty items is a wall. One item is a door |
+| The note doesn't change when you reopen the app | No reshuffling, no second-guessing |
+| Every pick comes with a reason | *"Because it's due tomorrow and Priya is waiting on it."* You can check it |
+| Done means stop | "Give me another" exists, but it's never the default |
+| Skipping is free today, expensive tomorrow | Laziness is allowed. Avoidance gets noticed |
+| The list never leaves your phone | It's your bills, your late replies, your passport |
 
 ## Demo
 
-**Try it:** [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com). Open it in Chrome on an Android phone or a desktop with a recent GPU. Tap **Fill in an example**, then **Sort it with Gemma**. The first run downloads Gemma once (about 1.5 GB, use Wi-Fi), and after that it works in airplane mode. No WebGPU? Tap **One per line, no AI** and it still works, deadlines included.
+**Try it:** [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com)
 
+Open it in Chrome on Android or on a desktop with a decent GPU. Tap **Fill in an example**, then **Sort it with Gemma**. The first time, Gemma downloads once (about 1.5 GB, use Wi-Fi). After that it works in airplane mode.
+
+No WebGPU on your device? Tap **One per line, no AI**. Every line becomes a task, and the deadlines in it still get read.
 
 ## Code
 
 {% github abhijeetkaze/hackathon-2026 %}
 
-The project lives in [`just-one/`](https://github.com/abhijeetkaze/hackathon-2026/tree/main/just-one). One static page, no backend, no dependencies, no build step, and 17 `node:test` tests.
+It lives in [`just-one/`](https://github.com/abhijeetkaze/hackathon-2026/tree/main/just-one). One static page. No backend, no dependencies, no build step, 17 tests.
 
 ## How I Built It
 
-### Gemma reads, code decides
+### Round one: who gets to decide?
 
-A to-do app that picks for you only works if you trust the pick. If a model ranked the list, the pick would change every time you asked and you'd never know why. So the work is split:
+The obvious build is "send the list to an AI and ask what to do first." I didn't want that. Ask a model twice and you get two different answers, and neither comes with a reason you can check. A to-do app you can't trust is just a slower to-do app.
 
-- **Gemma** does the part code can't: reading a messy paragraph and turning it into separate tasks, and suggesting a tiny first step for a task that feels too big.
-- **Code** does everything that has to be right: turning deadline words into dates, scoring, picking, and the reason sentence.
+So the work is split in two:
 
-The score is small enough to read in one go:
+- **Gemma reads.** It does the part code can't: turning *"priya's waiting on the design review, I told her tomorrow"* into a task with a title, the deadline words, who's waiting and a rough number of minutes. It also writes the five-minute first step when you tap Make it smaller.
+- **Code decides.** Dates, scoring, today's pick and the reason sentence are plain JavaScript you can read in one file.
+
+The whole ranking fits in a table:
 
 | Signal | Points |
 | --- | --- |
-| Overdue | 100, plus 5 a day late |
-| Due today / tomorrow / within 3 days / within a week | 90 / 70 / 50 / 30 |
+| Overdue | 100, plus 5 for each day late |
+| Due today / tomorrow / in 3 days / in a week | 90 / 70 / 50 / 30 |
 | Someone is waiting on it | +25 |
-| Skipping costs money or a cutoff (fine, late fee, refund, expiry…) | +20 |
-| Each time you said "not today" | +8 |
+| Skipping costs money or a cutoff (fine, late fee, refund, expiry) | +20 |
+| Each "Not today" | +8 |
 | Takes 15 minutes or less | +5 |
 
-Every point it adds becomes part of the reason: *"Because it's due in 3 days, Priya is waiting on it and you skipped it once already."*
+Every point becomes part of the reason on the note. The same list always gives the same pick.
 
-### Made-up details are dropped
+### Round two: don't trust a helpful model
 
-Small models like to be helpful. Ask Gemma 2B for deadlines and it will sometimes give "renew passport" a deadline of "next month" that you never wrote. So a deadline or a person is kept only if those exact words appear in your dump. Then code, not the model, turns the words into a date: "by friday", "in 3 days", "30th", "end of month", "3 Nov", "30/10" (day first). If code can't read it, there's no deadline. It never guesses.
+Small models want to be helpful. A helpful model asked for deadlines might give "renew passport" a deadline you never wrote, and then the app would nag you about something that was never urgent.
 
-### The bug the test drive caught
+I didn't want to find out the hard way. So a deadline or a person only survives if those exact words appear in what you typed. Then code, not Gemma, turns the words into a date: *by Friday, tomorrow, in 3 days, end of month, 30th, 3 Nov, 30/10* (day first). If code can't read it, there's no deadline. It never guesses.
 
-I drove the app in a headless browser before shipping. Skip the day's task, tap "give me another", and it handed back **the task I had just skipped**: skipping made it heavier, so it was still the top score. The fix was to remember the day you skipped something and never offer it again that day. There's a test for it now.
+### Round three: the lazy button was broken
+
+Before shipping, I had the app driven in a headless browser on a phone-sized screen. Skip today's task, then tap "give me another", and the app handed back the exact task I had just skipped.
+
+The rule that makes skipped tasks heavier was working perfectly. It made the skipped task the most important thing on the list, immediately. The fix: remember the day you skipped something, and never offer it again that same day. There's a test for it now.
+
+### Round four: it looked like every other AI app
+
+The first version was cream background, big serif headline, rounded cards. It worked, and it looked like a hundred other generated apps.
+
+So I redesigned it around the one object the app is really about: **a single sticky note on an empty desk.** A butter-yellow note, slightly crooked, on a cool grey-blue desk. A marker-style font (Shantell Sans) for anything you'd scribble on a note, and Atkinson Hyperlegible for everything else. The list is written on a lined legal pad with a red margin. When you tap Done, the note peels off. When you tap Not today, it drops out of sight. What's left is a dashed outline where it used to be. Nothing else on screen moves, and if your phone asks for reduced motion, nothing moves at all.
+
+Same headless browser, same screenshots. It caught one more bug: the "done for today" panel was showing all the time, because a CSS `display: grid` was beating the `hidden` attribute.
 
 ### The rest
 
-- **Gemma:** Gemma 2 2B (q4f16, or q4f32 on GPUs without f16) through WebLLM on WebGPU, loaded from a CDN at runtime. I used 2B rather than Gemma 3 1B because 1B repeated itself on long prompts under WebLLM in my earlier project.
-- **Storage:** the list lives in `localStorage` on your phone. There's a "delete everything" button, and no account or server.
-- **Offline:** a service worker caches the app, and WebLLM caches the model. A test checks the service worker precaches every file the app needs.
-- **Hosting:** a Render static site from one `render.yaml`, with the tests as the build step.
-- **Design:** the whole app is one sticky note on an empty desk. *Done* peels the note off, *Not today* drops it out of sight, and what's left is a dashed outline where it was. The list is written on a lined legal pad. Shantell Sans for anything you'd scribble on a note, Atkinson Hyperlegible for everything else, and no motion if your phone asks for less.
-
-## The Lazy Payoff
-
-The laziest thing about a to-do list is deciding what to do. Just One takes that away completely: you write the list once and never organise it, sort it or even read it again. Each day costs one glance and one tap. On a good day you tap Done and you're allowed to stop. On a bad day you tap Not today and nothing nags you until tomorrow. And when a task feels too big, you don't break it down yourself. You tap a button and get the first five minutes.
+- **Model:** Gemma 2 2B (q4f16, or q4f32 on GPUs without f16) through WebLLM on WebGPU, loaded from a CDN. I used 2B rather than Gemma 3 1B because 1B repeated itself on long prompts under WebLLM in my Week 1 project.
+- **Storage:** `localStorage`, on your phone. There's a button to delete the whole list. No account, no server.
+- **Offline:** a service worker caches the app and WebLLM caches the model. A test checks that every file the app needs is precached.
+- **Hosting:** a Render static site from one `render.yaml`. The tests are the build step, so a failing test never deploys.
 
 ## Why Does Open Innovation Matter?
 
-**Because a to-do list is private.** Mine has the bills I'm late on, the people I owe replies and a passport I keep forgetting. I don't want that on someone else's server so a model can tell me what to do first. With open weights, Gemma runs on the phone and the list never leaves it.
+**Because a to-do list is a diary of everything you're avoiding.** Late bills. Replies you owe. The passport. I don't want that on someone's server so a model can tell me what to do first. With open weights, Gemma runs on the phone and the list never leaves it.
 
-**Because it has to work every single morning, for free.** A daily habit can't depend on an API key, a rate limit or a monthly bill. Once Gemma is downloaded, splitting a list or suggesting a first step costs nothing and needs no network.
+**Because a daily habit can't have a meter on it.** An app you open every morning can't depend on an API key, a rate limit or a monthly bill. Once Gemma is downloaded, sorting a list or shrinking a task costs nothing and needs no network.
 
-**Because the important part is open too.** The ranking is a short, readable score in one file. If you think "someone is waiting" should matter more than a deadline, change one number.
+**Because the part that matters is readable.** The ranking is a short score in one file. If you think "someone is waiting" should beat a deadline, change one number.
 
-**Where a closed model would do better:** splitting a really tangled paragraph. A large hosted model would separate tasks more cleanly than a 2B model on a phone. That's why the "One per line, no AI" path exists, and why every task can be edited or deleted. I'll take that for a list that stays mine.
+**Where a closed model would win:** untangling a really messy paragraph. A big hosted model would split tasks more cleanly than a 2B model on a phone. That's why the no-AI path exists and every task can be edited or removed. I'll take that trade for a list that stays mine.
 
 ## My Agent Session
 
-I built Just One in a day with Claude Code. I picked the idea from a shortlist (it had to reward laziness, and I wanted it in English for everyone), and made the calls on what it should and shouldn't do. Claude Code wrote the code and tests, then drove the app in a headless browser on a phone-sized screen, which is how the skip bug above turned up before anyone else saw it.
+I built Just One in a day with Claude Code. I picked the idea from a shortlist, insisted it be in plain English for everyone, and made the calls on what it should refuse to do: no reshuffling, no nagging, no "you could also do these five things". Claude Code wrote the code and the tests, then drove the app in a headless browser on a phone-sized screen, which is how both bugs above were caught before anyone else saw them.
+
+## The Lazy Payoff
+
+**Before:** open the list, read forty items, spend ten minutes deciding, feel bad, close it, do nothing.
+
+**After:** open the app, read one note, tap Done. Or tap Not today and go back to the sofa without guilt.
+
+You write the list once and never organise it, sort it or even read it again. Each day costs one glance and one tap. And when something feels too big, you don't break it down yourself. You tap a button and get the first five minutes.
+
+You don't get more productive. You just get a sticky note that decides for you.
 
 ## Prize Categories
 
-- **Best Use of Gemma**: Gemma 2 2B runs entirely on the phone through WebLLM. It turns a brain dump into tasks and suggests a five-minute first step for anything too big, while code owns the dates and the ranking.
+- **Best Use of Gemma**: Gemma 2 2B runs entirely on the phone through WebLLM. It turns a brain dump into tasks and writes a five-minute first step for anything too big, while code owns the dates and the ranking.
 - **Best Use of Render**: the whole app is a Render static site deployed from one `render.yaml`, with the test suite as the build step, so a failing test never deploys. Live at [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com).
 
 ---

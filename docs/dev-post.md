@@ -25,9 +25,8 @@ So I built **Just One**. You tell it everything you've been putting off, once, a
 
 ## Demo
 
-**Try it:** <!-- Render URL here --> Open it in Chrome on an Android phone or a desktop with a recent GPU. Tap **Example**, then **Sort it with Gemma**. The first run downloads Gemma once (about 1.5 GB, use Wi-Fi), and after that it works in airplane mode. No WebGPU? Tap **One task per line, no AI** and it still works, deadlines included.
+**Try it:** [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com). Open it in Chrome on an Android phone or a desktop with a recent GPU. Tap **Example**, then **Sort it with Gemma**. The first run downloads Gemma once (about 1.5 GB, use Wi-Fi), and after that it works in airplane mode. No WebGPU? Tap **One task per line, no AI** and it still works, deadlines included.
 
-<!-- screenshots or a short screen recording here -->
 
 ## Code
 
@@ -71,6 +70,7 @@ I drove the app in a headless browser before shipping. Skip the day's task, tap 
 - **Storage:** the list lives in `localStorage` on your phone. There's a "delete everything" button, and no account or server.
 - **Offline:** a service worker caches the app, and WebLLM caches the model. A test checks the service worker precaches every file the app needs.
 - **Hosting:** a Render static site from one `render.yaml`, with the tests as the build step.
+- **Design:** the whole app is one sticky note on an empty desk. *Done* peels the note off, *Not today* drops it out of sight, and what's left is a dashed outline where it was. The list is written on a lined legal pad. Shantell Sans for anything you'd scribble on a note, Atkinson Hyperlegible for everything else, and no motion if your phone asks for less.
 
 ## The Lazy Payoff
 
@@ -93,7 +93,7 @@ I built Just One in a day with Claude Code. I picked the idea from a shortlist (
 ## Prize Categories
 
 - **Best Use of Gemma**: Gemma 2 2B runs entirely on the phone through WebLLM. It turns a brain dump into tasks and suggests a five-minute first step for anything too big, while code owns the dates and the ranking.
-- **Best Use of Render**: the whole app is a Render static site deployed from one `render.yaml`, with the test suite as the build step, so a failing test never deploys.
+- **Best Use of Render**: the whole app is a Render static site deployed from one `render.yaml`, with the test suite as the build step, so a failing test never deploys. Live at [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com).
 
 ---
 

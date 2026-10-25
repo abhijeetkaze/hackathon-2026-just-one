@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Just One</title>
+    <meta name="description" content="Dump your whole to-do list once. Every day it shows you just one thing. Gemma runs on your phone, so your list never leaves it.">
+    <meta name="theme-color" content="#2f5d50">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app">
+      <header class="top">
+        <p class="brand">Just One</p>
+        <nav>
+          <button type="button" class="link" data-go="dump">Add</button>
+          <button type="button" class="link" data-go="all">Everything</button>
+        </nav>
+      </header>
+
+      <!-- Today: the only screen most days -->
+      <section id="today" class="screen" hidden>
+        <p class="date" id="dateLine"></p>
+        <div id="pickCard" class="card pick" hidden>
+          <p class="eyebrow">Your one thing today</p>
+          <h1 id="pickTitle"></h1>
+          <p id="pickWhy" class="why"></p>
+          <p id="pickStep" class="step" hidden></p>
+          <div class="actions">
+            <button id="doneBtn" type="button" class="primary">Done</button>
+            <button id="smallerBtn" type="button" class="ghost">Too big? Make it smaller</button>
+            <button id="skipBtn" type="button" class="quiet">Not today</button>
+          </div>
+          <p id="pickStatus" class="status" role="status"></p>
+        </div>
+        <div id="restCard" class="card rest" hidden>
+          <p class="eyebrow" id="restEyebrow">That's it for today</p>
+          <h1 id="restTitle">You can stop now.</h1>
+          <p id="restText" class="why">Everything else can wait until tomorrow.</p>
+          <div class="actions"><button id="anotherBtn" type="button" class="ghost">I'm on a roll, give me another</button></div>
+        </div>
+        <div id="emptyCard" class="card rest" hidden>
+          <p class="eyebrow">Nothing on your list</p>
+          <h1>Empty your head first.</h1>
+          <p class="why">Write down everything you've been putting off, once. After that you only ever see one thing a day.</p>
+          <div class="actions"><button type="button" class="primary" data-go="dump">Start</button></div>
+        </div>
+      </section>
+
+      <!-- Dump: write everything once -->
+      <section id="dump" class="screen" hidden>
+        <h1 class="h">Everything you've been putting off.</h1>
+        <p class="why">One messy paragraph is fine. Deadlines, who's waiting, what happens if you skip it: write it the way you'd say it. You won't see this list again unless you ask.</p>
+        <textarea id="dumpText" rows="9" placeholder="pay the electricity bill by friday or there's a late fee, priya is waiting on the design review (said tomorrow), renew passport, call the plumber about the kitchen tap, return the amazon parcel in 3 days…"></textarea>
+        <div class="actions">
+          <button id="splitBtn" type="button" class="primary">Sort it with Gemma</button>
+          <button id="linesBtn" type="button" class="ghost">One task per line, no AI</button>
+          <button id="exampleBtn" type="button" class="quiet">Example</button>
+        </div>
+        <p id="dumpStatus" class="status" role="status"></p>
+        <progress id="dumpProgress" max="1" value="0" hidden></progress>
+      </section>
+
+      <!-- Everything: for when you insist -->
+      <section id="all" class="screen" hidden>
+        <h1 class="h">Everything, in the order you'll get it.</h1>
+        <p class="why">You don't need to look at this. It's here so you can fix a date or delete something.</p>
+        <ol id="allList" class="list"></ol>
+        <div class="actions"><button id="clearBtn" type="button" class="quiet">Delete everything on this phone</button></div>
+      </section>
+
+      <footer class="foot">Your list stays on this phone. Gemma runs here too. <a href="https://github.com/abhijeetkaze/hackathon-2026/tree/main/just-one">Source</a></footer>
+    </main>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "just-one",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dump your whole to-do list once. Every morning it shows you just one thing. Gemma runs on the phone.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "serve": "npx --yes http-server web -p 8080 -c-1"
+  },
+  "engines": { "node": ">=20" }
+}

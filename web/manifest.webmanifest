@@ -1,0 +1,11 @@
+{
+  "name": "Just One",
+  "short_name": "Just One",
+  "description": "Dump your to-do list once. Every day it shows you just one thing.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f1ea",
+  "theme_color": "#2f5d50",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

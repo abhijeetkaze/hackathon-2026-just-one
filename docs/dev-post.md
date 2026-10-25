@@ -16,7 +16,7 @@ The list was never the problem. **Deciding** was the problem. And deciding is ex
 
 So I stopped deciding. I built an app that does it for me, shows me one thing, and then leaves me alone.
 
-{% embed https://www.youtube.com/watch?v=BPLhi1_g-fA %}
+{% embed https://www.youtube.com/watch?v=YROIoGSGTo4 %}
 
 ## What I Built
 

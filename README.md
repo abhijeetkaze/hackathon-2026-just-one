@@ -7,7 +7,7 @@ Everything you've been putting off goes into one text box, once, as messy as you
 one thing, why it's that one, and three buttons: **Done**, **Make it smaller**, **Not today**.
 Your list never leaves the phone.
 
-**Live:** [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com)
+**Live:** [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com) · **Video:** [Just One in 27 seconds](https://www.youtube.com/watch?v=BPLhi1_g-fA)
 
 Built for the [DEV Hacktoberfest 2026 Open-Source AI Challenge, Week 3: Slow and Steady](https://dev.to/challenges/hacktoberfest-week3-2026-10-19).
 This folder was started on **2026-10-25**.

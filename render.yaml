@@ -1,0 +1,15 @@
+# Render Blueprint: Just One as a static site.
+# Deploy: Render dashboard → New → Blueprint → pick this repo.
+services:
+  - type: web
+    name: just-one
+    runtime: static
+    buildCommand: npm test
+    staticPublishPath: web
+    headers:
+      - path: /sw.js
+        name: Cache-Control
+        value: no-cache
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff

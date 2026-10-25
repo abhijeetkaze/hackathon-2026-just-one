@@ -10,7 +10,7 @@ Your list never leaves the phone.
 **Live:** [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com) · **Video:** [Just One in 27 seconds](https://www.youtube.com/watch?v=BPLhi1_g-fA)
 
 Built for the [DEV Hacktoberfest 2026 Open-Source AI Challenge, Week 3: Slow and Steady](https://dev.to/challenges/hacktoberfest-week3-2026-10-19).
-This folder was started on **2026-10-25**.
+Started on **2026-10-25**, inside the Week 3 window.
 
 ## How it works
 
@@ -63,9 +63,8 @@ The first "Sort it with Gemma" downloads about 1.5 GB once (use Wi-Fi). After th
 
 ## Deploy
 
-`render.yaml` at the repo root deploys `just-one/web` as a Render static site, running the tests as
-the build step.
+`render.yaml` deploys `web/` as a Render static site, running the tests as the build step.
 
 ## License
 
-Apache-2.0 (see the repository root).
+Apache-2.0. See [LICENSE](LICENSE).

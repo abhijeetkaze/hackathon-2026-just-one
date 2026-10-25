@@ -2,7 +2,7 @@
 # Deploy: Render dashboard → New → Blueprint → pick this repo.
 services:
   - type: web
-    name: just-one
+    name: hackathon-2026-just-one
     runtime: static
     buildCommand: npm test
     staticPublishPath: web

@@ -52,7 +52,7 @@ No WebGPU on your device? Tap **One per line, no AI**. Every line becomes a task
 
 ## Code
 
-{% github abhijeetkaze/hackathon-2026 %}
+{% github abhijeetkaze/hackathon-2026 no-readme %}
 
 It lives in [`just-one/`](https://github.com/abhijeetkaze/hackathon-2026/tree/main/just-one). One static page. No backend, no dependencies, no build step, 17 tests.
 

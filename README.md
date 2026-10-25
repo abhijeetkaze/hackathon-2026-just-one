@@ -67,4 +67,4 @@ The first "Sort it with Gemma" downloads about 1.5 GB once (use Wi-Fi). After th
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).

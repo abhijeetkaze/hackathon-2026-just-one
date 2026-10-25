@@ -44,7 +44,7 @@ That's the whole app. There's an "All" screen if you insist on seeing everything
 
 ## Demo
 
-**Try it:** [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com)
+**Try it:** [hackathon-2026-just-one.onrender.com](https://hackathon-2026-just-one.onrender.com)
 
 Open it in Chrome on Android or on a desktop with a decent GPU. Tap **Fill in an example**, then **Sort it with Gemma**. The first time, Gemma downloads once (about 1.5 GB, use Wi-Fi). After that it works in airplane mode.
 
@@ -134,7 +134,7 @@ You don't get more productive. You just get a sticky note that decides for you.
 ## Prize Categories
 
 - **Best Use of Gemma**: Gemma 2 2B runs entirely on the phone through WebLLM. It turns a brain dump into tasks and writes a five-minute first step for anything too big, while code owns the dates and the ranking.
-- **Best Use of Render**: the whole app is a Render static site deployed from one `render.yaml`, with the test suite as the build step, so a failing test never deploys. Live at [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com).
+- **Best Use of Render**: the whole app is a Render static site deployed from one `render.yaml`, with the test suite as the build step, so a failing test never deploys. Live at [hackathon-2026-just-one.onrender.com](https://hackathon-2026-just-one.onrender.com).
 
 ---
 

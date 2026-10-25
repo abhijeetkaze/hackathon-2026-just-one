@@ -4,7 +4,7 @@
 
 Everything you've been putting off goes into one text box, once, as messy as you like.
 **Gemma, running on your phone**, splits it into tasks. After that the app has one screen: today's
-one thing, why it's that one, and three buttons: **Done**, **Too big? Make it smaller**, **Not today**.
+one thing, why it's that one, and three buttons: **Done**, **Make it smaller**, **Not today**.
 Your list never leaves the phone.
 
 **Live:** [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com)
@@ -35,7 +35,7 @@ Rules:
 - **"Not today" is allowed, and it costs something.** Nothing replaces the task today unless you ask
   for another, and every skip makes it heavier tomorrow.
 - **After "Done" the app tells you to stop.** "Give me another" is there, but it's not the default.
-- **No WebGPU? It still works:** "One task per line, no AI" adds each line as a task, and code still
+- **No WebGPU? It still works:** "One per line, no AI" adds each line as a task, and code still
   reads the deadlines in it.
 
 ## Layout

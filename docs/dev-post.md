@@ -8,7 +8,7 @@ tags: devchallenge, hf26challenge, gemma, opensource
 
 My to-do list has never once helped me do anything. It's a list of forty things, and every time I open it I spend ten minutes deciding which one matters, feel bad about the other thirty-nine, and close it. The deciding is the work I'm avoiding.
 
-So I built **Just One**. You tell it everything you've been putting off, once, as one messy paragraph. After that it has one screen: the single thing to do today, one line on why it's that one, and three buttons. **Done**. **Too big? Make it smaller**. **Not today**.
+So I built **Just One**. You tell it everything you've been putting off, once, as one messy paragraph. After that it has one screen: the single thing to do today, one line on why it's that one, and three buttons. **Done**. **Make it smaller**. **Not today**.
 
 **TL;DR.** Gemma runs on your phone and turns a brain dump into tasks. Plain code reads the deadlines and picks today's one thing with a reason you can check. Done means you can stop. Your list never leaves the phone, and it works in airplane mode.
 
@@ -16,7 +16,7 @@ So I built **Just One**. You tell it everything you've been putting off, once, a
 
 - **Empty your head once.** *"pay the electricity bill by friday or there's a late fee. priya is waiting on the design review, I told her tomorrow. renew my passport sometime. return the amazon parcel in 3 days or I lose the refund…"* Gemma splits that into tasks: a short title, the deadline words, who's waiting, what skipping costs, and a rough number of minutes.
 - **One thing a day.** Each morning the app shows one task: *"Send Priya the design review. Because it's due tomorrow and Priya is waiting on it."* Opening the app again doesn't reshuffle it.
-- **Too big? Make it smaller.** One tap and Gemma gives you a first step you can do in under five minutes: *"Open the electricity board site and find this month's bill."* The step sits under the task until you're done.
+- **Make it smaller.** One tap and Gemma gives you a first step you can do in under five minutes: *"Open the electricity board site and find this month's bill."* The step sits under the task until you're done.
 - **Not today.** Allowed, with no guilt trip. Nothing replaces it today unless you ask. But every skip makes that task heavier tomorrow, so the things you dodge come back first.
 - **Done means stop.** After you finish, the app says *"That was the one. You can stop now."* There's a "give me another" button for days you're on a roll, but it's never the default.
 - **Everything, if you insist.** One tap shows the whole list in the order you'll get it, so you can fix a date or delete something. You don't have to look at it.
@@ -25,7 +25,7 @@ So I built **Just One**. You tell it everything you've been putting off, once, a
 
 ## Demo
 
-**Try it:** [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com). Open it in Chrome on an Android phone or a desktop with a recent GPU. Tap **Example**, then **Sort it with Gemma**. The first run downloads Gemma once (about 1.5 GB, use Wi-Fi), and after that it works in airplane mode. No WebGPU? Tap **One task per line, no AI** and it still works, deadlines included.
+**Try it:** [just-one-s6f8.onrender.com](https://just-one-s6f8.onrender.com). Open it in Chrome on an Android phone or a desktop with a recent GPU. Tap **Fill in an example**, then **Sort it with Gemma**. The first run downloads Gemma once (about 1.5 GB, use Wi-Fi), and after that it works in airplane mode. No WebGPU? Tap **One per line, no AI** and it still works, deadlines included.
 
 
 ## Code
@@ -84,7 +84,7 @@ The laziest thing about a to-do list is deciding what to do. Just One takes that
 
 **Because the important part is open too.** The ranking is a short, readable score in one file. If you think "someone is waiting" should matter more than a deadline, change one number.
 
-**Where a closed model would do better:** splitting a really tangled paragraph. A large hosted model would separate tasks more cleanly than a 2B model on a phone. That's why the "One task per line, no AI" path exists, and why every task can be edited or deleted. I'll take that for a list that stays mine.
+**Where a closed model would do better:** splitting a really tangled paragraph. A large hosted model would separate tasks more cleanly than a 2B model on a phone. That's why the "One per line, no AI" path exists, and why every task can be edited or deleted. I'll take that for a list that stays mine.
 
 ## My Agent Session
 
